@@ -246,3 +246,4 @@ svg line {
 .pattern-container:has(svg) .pattern-placeholder {
     display: none !important;
 }
+
