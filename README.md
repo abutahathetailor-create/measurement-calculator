@@ -10,7 +10,7 @@ A professional web-based measurement calculator for fashion designers, tailors, 
 
 ## 🌟 Live Demo
 
-🔗 **Live Website:** [https://abutahathetailor-create.github.io/body-measurement-calculator/](https://abutahathetailor-create.github.io/body-measurement-calculator/)
+🔗 **Live Website:** [https://abutahathetailor-create.github.io/measurement-calculator/](https://abutahathetailor-create.github.io/measurement-calculator/)
 
 ## 📊 Features
 
