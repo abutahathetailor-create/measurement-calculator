@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Professional Pattern Making Calculator">
+    <meta name="author" content="Pattern Calculator Pro">
+    
+    <title>Pattern Calculator Pro - Professional Pattern Making Tool</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/patterns.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas-ruler-combined"></i>
+                Pattern Calculator Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#measurements"><i class="fas fa-ruler"></i> Measurements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#patterns"><i class="fas fa-cut"></i> Patterns</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#results"><i class="fas fa-table"></i> Results</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Pattern Types</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <button class="nav-link pattern-type-btn active" data-pattern-type="bodice-front">
+                                <i class="fas fa-tshirt"></i>
+                                Bodice Front
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link pattern-type-btn" data-pattern-type="bodice-back">
+                                <i class="fas fa-tshirt"></i>
+                                Bodice Back
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link pattern-type-btn" data-pattern-type="sleeve">
+                                <i class="fas fa-vest"></i>
+                                Sleeve
+                            </button>
+                        </li>
+                    </ul>
+
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Tools</span>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <button class="nav-link" onclick="window.patternApp.exportPattern()">
+                                <i class="fas fa-download"></i>
+                                Export SVG
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" onclick="window.patternApp.printPattern()">
+                                <i class="fas fa-print"></i>
+                                Print Pattern
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Pattern Making Calculator</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.patternApp.exportPattern()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.patternApp.printPattern()">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Measurement Input Section -->
+                <section id="measurements" class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-ruler-combined"></i> Body Measurements
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Unit Toggle -->
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label class="form-label">Measurement Units:</label>
+                                        <div class="btn-group w-100" role="group">
+                                            <button type="button" class="btn btn-outline-primary unit-btn active">
+                                                Centimeters (cm)
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary unit-btn">
+                                                Inches
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Measurement Inputs -->
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-lg-4">
+                                        <label for="bh" class="form-label">
+                                            <i class="fas fa-arrows-alt-v"></i> Body Height (Bh)
+                                        </label>
+                                        <input type="number" class="form-control" id="bh" value="179" step="0.1" placeholder="Enter body height">
+                                    </div>
+                                    <div class="col-md-6 col-lg-4">
+                                        <label for="cg" class="form-label">
+                                            <i class="fas fa-arrows-alt-h"></i> Chest Girth (Cg)
+                                        </label>
+                                        <input type="number" class="form-control" id="cg" value="100" step="0.1" placeholder="Enter chest girth">
+                                    </div>
+                                    <div class="col-md-6 col-lg-4">
+                                        <label for="wg" class="form-label">
+                                            <i class="fas fa-arrows-alt-h"></i> Waist Girth (Wg)
+                                        </label>
+                                        <input type="number" class="form-control" id="wg" value="90" step="0.1" placeholder="Enter waist girth">
+                                    </div>
+                                    <div class="col-md-6 col-lg-4">
+                                        <label for="hg" class="form-label">
+                                            <i class="fas fa-arrows-alt-h"></i> Hip Girth (Hg)
+                                        </label>
+                                        <input type="number" class="form-control" id="hg" value="102" step="0.1" placeholder="Enter hip girth">
+                                    </div>
+                                    <div class="col-md-6 col-lg-4">
+                                        <label for="sl" class="form-label">
+                                            <i class="fas fa-arrows-alt-v"></i> Sleeve Length (Sl)
+                                        </label>
+                                        <input type="number" class="form-control" id="sl" value="64" step="0.1" placeholder="Enter sleeve length">
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary btn-lg" onclick="window.patternApp.calculateAndDisplay()">
+                                            <i class="fas fa-calculator"></i> Calculate All Measurements
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pattern Display Section -->
+                <section id="patterns" class="row mb-4">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-drafting-compass"></i> Pattern Display
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="pattern-display" class="pattern-container">
+                                    <!-- SVG patterns will be rendered here -->
+                                    <div class="pattern-placeholder">
+                                        <i class="fas fa-drafting-compass fa-5x text-muted mb-3"></i>
+                                        <p class="text-muted">Select a pattern type to generate the technical drawing</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-info-circle"></i> Pattern Information
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="pattern-info">
+                                    <p class="text-muted">No pattern generated yet</p>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h6>Pattern Legend</h6>
+                                    <div class="legend-item">
+                                        <span class="legend-color cutting-line"></span>
+                                        <span>Cutting Line</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color stitching-line"></span>
+                                        <span>Stitching Line</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color grain-line"></span>
+                                        <span>Grain Line</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color dart-point"></span>
+                                        <span>Dart Point</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section id="results" class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-table"></i> Measurement Results
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Short Form</th>
+                                                <th>Measurement</th>
+                                                <th>Result (cm)</th>
+                                                <th>Result (inches)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="results-body">
+                                            <!-- Results will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5 py-3 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="text-muted">Pattern Calculator Pro &copy; 2024 - Professional Pattern Making Tool</span>
+                </div>
+                <div class="col-md-6 text-end">
+                    <span class="text-muted">Built with ❤️ for Tailors and Fashion Designers</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Core Application Files -->
+    <script src="js/calculator.js"></script>
+    <script src="js/pattern-generator.js"></script>
+    <script src="js/svg-renderer.js"></script>
+    <script src="data/pattern-templates.js"></script>
+    <script src="js/ui-manager.js"></script>
+
+</body>
+</html>
