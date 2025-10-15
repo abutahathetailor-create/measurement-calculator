@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Body Measurement Calculator</title>
+    <title>Body Measurement Calculator PRO with Visual Diagrams</title>
     <style>
         * {
             margin: 0;
@@ -12,23 +12,24 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #333;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
             overflow: hidden;
         }
         
         .header {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
             padding: 30px;
             text-align: center;
@@ -37,63 +38,80 @@
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
+            font-weight: 300;
         }
         
         .header p {
-            opacity: 0.8;
+            opacity: 0.9;
+            font-size: 1.1em;
         }
         
-        .content {
+        .main-content {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 1fr;
             gap: 0;
+            min-height: 800px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
         }
         
         .input-section {
             background: #f8f9fa;
             padding: 30px;
-            border-right: 2px solid #e9ecef;
+            border-right: 3px solid #e9ecef;
         }
         
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
+            font-weight: 600;
             color: #495057;
+            font-size: 14px;
         }
         
         .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 15px;
             border: 2px solid #dee2e6;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: white;
         }
         
         .input-group input:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .unit-toggle {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
         }
         
         .unit-btn {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: 2px solid #dee2e6;
             background: white;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
         
         .unit-btn.active {
@@ -104,42 +122,103 @@
         
         .calculate-btn {
             width: 100%;
-            padding: 15px;
-            background: #28a745;
+            padding: 16px;
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
         
         .calculate-btn:hover {
-            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+        
+        .visualization-section {
+            padding: 30px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .diagram-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .body-diagram {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            padding: 20px;
+        }
+        
+        .measurement-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .measurement-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .measurement-card h4 {
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .measurement-card .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
         }
         
         .results-section {
+            grid-column: 1 / -1;
+            background: #f8f9fa;
             padding: 30px;
-            overflow-x: auto;
+            border-top: 3px solid #e9ecef;
         }
         
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .results-table th,
         .results-table td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #dee2e6;
         }
         
         .results-table th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #495057;
+            background: #2c3e50;
+            color: white;
+            font-weight: 600;
         }
         
         .results-table tr:hover {
@@ -148,31 +227,99 @@
         
         .formula-section {
             margin-top: 30px;
-            padding: 20px;
-            background: #e9ecef;
-            border-radius: 8px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        @media (max-width: 768px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-            
-            .input-section {
-                border-right: none;
-                border-bottom: 2px solid #e9ecef;
-            }
+        .formula-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .formula-item {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .formula-item strong {
+            color: #2c3e50;
+        }
+        
+        /* SVG Styles */
+        .body-outline {
+            fill: #ffe0b2;
+            stroke: #333;
+            stroke-width: 2;
+            opacity: 0.9;
+        }
+        
+        .measurement-circle {
+            fill: none;
+            stroke-width: 3;
+            stroke-dasharray: 5,5;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .measurement-circle:hover {
+            opacity: 1;
+            stroke-width: 4;
+        }
+        
+        .measurement-text {
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;
+            fill: #2c3e50;
+        }
+        
+        .measurement-line {
+            stroke: #e74c3c;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
+        .chest-color { stroke: #e74c3c; }
+        .waist-color { stroke: #3498db; }
+        .hip-color { stroke: #9b59b6; }
+        .neck-color { stroke: #2ecc71; }
+        .armhole-color { stroke: #f39c12; }
+        
+        .highlight-circle {
+            fill: white;
+            stroke: #333;
+            stroke-width: 1;
+            r: 4;
+        }
+        
+        .highlight-text {
+            font-size: 10px;
+            text-anchor: middle;
+            fill: #2c3e50;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📐 Body Measurement Calculator</h1>
-            <p>Professional Pattern Making Measurements</p>
+            <h1>📐 Body Measurement Calculator PRO</h1>
+            <p>Professional Pattern Making with Visual Diagrams</p>
         </div>
         
-        <div class="content">
+        <div class="main-content">
             <div class="input-section">
                 <div class="unit-toggle">
                     <button class="unit-btn active" onclick="setUnit('cm')">Centimeters (cm)</button>
@@ -180,35 +327,68 @@
                 </div>
                 
                 <div class="input-group">
-                    <label for="bh">Body Height (Bh)</label>
+                    <label for="bh">📏 Body Height (Bh)</label>
                     <input type="number" id="bh" step="0.1" value="179" placeholder="Enter body height">
                 </div>
                 
                 <div class="input-group">
-                    <label for="cg">Chest Girth (Cg)</label>
+                    <label for="cg">👕 Chest Girth (Cg)</label>
                     <input type="number" id="cg" step="0.1" value="100" placeholder="Enter chest girth">
                 </div>
                 
                 <div class="input-group">
-                    <label for="wg">Waist Girth (Wg)</label>
+                    <label for="wg">🎯 Waist Girth (Wg)</label>
                     <input type="number" id="wg" step="0.1" value="90" placeholder="Enter waist girth">
                 </div>
                 
                 <div class="input-group">
-                    <label for="hg">Hip Girth (Hg)</label>
+                    <label for="hg">🩳 Hip Girth (Hg)</label>
                     <input type="number" id="hg" step="0.1" value="102" placeholder="Enter hip girth">
                 </div>
                 
                 <div class="input-group">
-                    <label for="sl">Sleeve Length (Sl)</label>
+                    <label for="sl">👔 Sleeve Length (Sl)</label>
                     <input type="number" id="sl" step="0.1" value="64" placeholder="Enter sleeve length">
                 </div>
                 
-                <button class="calculate-btn" onclick="calculateAll()">Calculate Measurements</button>
+                <button class="calculate-btn" onclick="calculateAll()">
+                    🚀 Calculate All Measurements
+                </button>
+            </div>
+            
+            <div class="visualization-section">
+                <div class="diagram-container">
+                    <svg class="body-diagram" viewBox="0 0 300 500" id="bodyDiagram">
+                        <!-- Body Outline -->
+                        <path class="body-outline" d="M150,60 Q180,100 150,180 Q120,260 150,380 Q180,420 150,460 Q120,420 150,380 Q180,260 150,180 Q120,100 150,60"/>
+                        
+                        <!-- Measurement Circles will be dynamically added -->
+                        
+                        <!-- Measurement Points -->
+                        <circle cx="150" cy="100" class="highlight-circle"/>
+                        <text x="150" y="95" class="highlight-text">Neck</text>
+                        
+                        <circle cx="150" cy="140" class="highlight-circle"/>
+                        <text x="150" y="135" class="highlight-text">Chest</text>
+                        
+                        <circle cx="150" cy="220" class="highlight-circle"/>
+                        <text x="150" y="215" class="highlight-text">Waist</text>
+                        
+                        <circle cx="150" cy="300" class="highlight-circle"/>
+                        <text x="150" y="295" class="highlight-text">Hips</text>
+                        
+                        <circle cx="150" cy="180" class="highlight-circle"/>
+                        <text x="150" y="175" class="highlight-text">Armhole</text>
+                    </svg>
+                    
+                    <div class="measurement-highlights" id="measurementHighlights">
+                        <!-- Dynamic measurement cards will appear here -->
+                    </div>
+                </div>
             </div>
             
             <div class="results-section">
-                <h2>Measurement Results</h2>
+                <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">📊 Detailed Measurement Results</h2>
                 <table class="results-table" id="resultsTable">
                     <thead>
                         <tr>
@@ -224,16 +404,18 @@
                 </table>
                 
                 <div class="formula-section">
-                    <h3>📊 Formulas Used</h3>
-                    <p><strong>Nw</strong> = 1/10 of 1/2 Cg + 3</p>
-                    <p><strong>Sd</strong> = 1/8 Cg + 12.5</p>
-                    <p><strong>bwl</strong> = 1/4 Bh</p>
-                    <p><strong>Lg</strong> = 1/2 Bh - 1/8 Bh - 3</p>
-                    <p><strong>Ad</strong> = Sd + 2.5</p>
-                    <p><strong>Bw</strong> = 2/10 Cg + 1.2</p>
-                    <p><strong>Sw</strong> = 1/8 Cg + 3</p>
-                    <p><strong>Cw</strong> = 2/10 Cg + 0.8</p>
-                    <p><strong>Aw</strong> = 1/4 Wg - 1.3</p>
+                    <h3>🔢 Measurement Formulas</h3>
+                    <div class="formula-grid">
+                        <div class="formula-item"><strong>Nw</strong> = 1/10 of 1/2 Cg + 3</div>
+                        <div class="formula-item"><strong>Sd</strong> = 1/8 Cg + 12.5</div>
+                        <div class="formula-item"><strong>bwl</strong> = 1/4 Bh</div>
+                        <div class="formula-item"><strong>Lg</strong> = 1/2 Bh - 1/8 Bh - 3</div>
+                        <div class="formula-item"><strong>Ad</strong> = Sd + 2.5</div>
+                        <div class="formula-item"><strong>Bw</strong> = 2/10 Cg + 1.2</div>
+                        <div class="formula-item"><strong>Sw</strong> = 1/8 Cg + 3</div>
+                        <div class="formula-item"><strong>Cw</strong> = 2/10 Cg + 0.8</div>
+                        <div class="formula-item"><strong>Aw</strong> = 1/4 Wg - 1.3</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -248,8 +430,6 @@
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
-            // Convert inputs if needed
             convertInputs(unit);
         }
         
@@ -260,14 +440,11 @@
                 let value = parseFloat(input.value) || 0;
                 
                 if (targetUnit === 'inches' && currentUnit === 'cm') {
-                    // Convert cm to inches
                     input.value = (value * 0.3937).toFixed(2);
                 } else if (targetUnit === 'cm' && currentUnit === 'inches') {
-                    // Convert inches to cm
                     input.value = (value / 0.3937).toFixed(2);
                 }
             });
-            
             currentUnit = targetUnit;
         }
         
@@ -292,46 +469,55 @@
             
             // Calculate all measurements
             const calculations = {
-                'Bh': { cm: bh_cm, inches: bh_cm * 0.3937 },
-                'Cg': { cm: cg_cm, inches: cg_cm * 0.3937 },
-                'Wg': { cm: wg_cm, inches: wg_cm * 0.3937 },
-                'Hg': { cm: hg_cm, inches: hg_cm * 0.3937 },
-                'Sl': { cm: sl_cm, inches: sl_cm * 0.3937 },
+                'Bh': { cm: bh_cm, inches: bh_cm * 0.3937, description: 'Body Height' },
+                'Cg': { cm: cg_cm, inches: cg_cm * 0.3937, description: 'Chest Girth' },
+                'Wg': { cm: wg_cm, inches: wg_cm * 0.3937, description: 'Waist Girth' },
+                'Hg': { cm: hg_cm, inches: hg_cm * 0.3937, description: 'Hip Girth' },
+                'Sl': { cm: sl_cm, inches: sl_cm * 0.3937, description: 'Sleeve Length' },
                 'Nw': { 
                     cm: (1/10 * 1/2 * cg_cm) + 3, 
-                    inches: ((1/10 * 1/2 * cg_cm) + 3) * 0.3937 
+                    inches: ((1/10 * 1/2 * cg_cm) + 3) * 0.3937,
+                    description: 'Neck Width'
                 },
                 'Sd': { 
                     cm: (cg_cm/8) + 12.5, 
-                    inches: ((cg_cm/8) + 12.5) * 0.3937 
+                    inches: ((cg_cm/8) + 12.5) * 0.3937,
+                    description: 'Scye Depth'
                 },
                 'bwl': { 
                     cm: bh_cm/4, 
-                    inches: (bh_cm/4) * 0.3937 
+                    inches: (bh_cm/4) * 0.3937,
+                    description: 'Back Waist Length'
                 },
                 'Lg': { 
                     cm: (bh_cm/2) - (bh_cm/8) - 3, 
-                    inches: ((bh_cm/2) - (bh_cm/8) - 3) * 0.3937 
+                    inches: ((bh_cm/2) - (bh_cm/8) - 3) * 0.3937,
+                    description: 'Length'
                 },
                 'Ad': { 
                     cm: ((cg_cm/8) + 12.5) + 2.5, 
-                    inches: (((cg_cm/8) + 12.5) + 2.5) * 0.3937 
+                    inches: (((cg_cm/8) + 12.5) + 2.5) * 0.3937,
+                    description: 'Armhole Depth'
                 },
                 'Bw': { 
                     cm: (2/10 * cg_cm) + 1.2, 
-                    inches: ((2/10 * cg_cm) + 1.2) * 0.3937 
+                    inches: ((2/10 * cg_cm) + 1.2) * 0.3937,
+                    description: 'Back Width'
                 },
                 'Sw': { 
                     cm: (cg_cm/8) + 3, 
-                    inches: ((cg_cm/8) + 3) * 0.3937 
+                    inches: ((cg_cm/8) + 3) * 0.3937,
+                    description: 'Scye Width'
                 },
                 'Cw': { 
                     cm: (2/10 * cg_cm) + 0.8, 
-                    inches: ((2/10 * cg_cm) + 0.8) * 0.3937 
+                    inches: ((2/10 * cg_cm) + 0.8) * 0.3937,
+                    description: 'Chest Width'
                 },
                 'Aw': { 
                     cm: (wg_cm/4) - 1.3, 
-                    inches: ((wg_cm/4) - 1.3) * 0.3937 
+                    inches: ((wg_cm/4) - 1.3) * 0.3937,
+                    description: 'Abdomen Width'
                 }
             };
             
@@ -340,12 +526,13 @@
             const minusCm = cg_cm/2;
             const easeCm = totalChestCm - minusCm;
             
-            calculations['Total Chest'] = { cm: totalChestCm, inches: totalChestCm * 0.3937 };
-            calculations['Minus'] = { cm: minusCm, inches: minusCm * 0.3937 };
-            calculations['Ease'] = { cm: easeCm, inches: easeCm * 0.3937 };
+            calculations['Total Chest'] = { cm: totalChestCm, inches: totalChestCm * 0.3937, description: 'Total Chest' };
+            calculations['Minus'] = { cm: minusCm, inches: minusCm * 0.3937, description: 'Minus (1/2 Cg)' };
+            calculations['Ease'] = { cm: easeCm, inches: easeCm * 0.3937, description: 'Ease' };
             
-            // Display results
+            // Display results and update visualization
             displayResults(calculations);
+            updateVisualization(calculations);
         }
         
         function displayResults(calculations) {
@@ -375,12 +562,79 @@
             Object.keys(measurementNames).forEach(key => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${key}</td>
+                    <td><strong>${key}</strong></td>
                     <td>${measurementNames[key]}</td>
                     <td>${calculations[key].cm.toFixed(2)} cm</td>
                     <td>${calculations[key].inches.toFixed(2)} inches</td>
                 `;
                 resultsBody.appendChild(row);
+            });
+        }
+        
+        function updateVisualization(calculations) {
+            const diagram = document.getElementById('bodyDiagram');
+            const highlights = document.getElementById('measurementHighlights');
+            
+            // Clear previous visualization
+            const oldCircles = diagram.querySelectorAll('.measurement-circle, .measurement-text');
+            oldCircles.forEach(el => el.remove());
+            
+            // Clear highlights
+            highlights.innerHTML = '';
+            
+            // Calculate proportional sizes for visualization
+            const chestRadius = (calculations.Cg.cm / 10) * 0.9;
+            const waistRadius = (calculations.Wg.cm / 10) * 0.9;
+            const hipRadius = (calculations.Hg.cm / 10) * 0.9;
+            const neckRadius = (calculations.Nw.cm / 2) * 1.5;
+            const armholeRadius = (calculations.Sd.cm / 2) * 1.2;
+            
+            // Add measurement circles to diagram
+            const measurements = [
+                { type: 'chest', radius: chestRadius, y: 140, color: 'chest-color', value: calculations.Cg.cm },
+                { type: 'waist', radius: waistRadius, y: 220, color: 'waist-color', value: calculations.Wg.cm },
+                { type: 'hip', radius: hipRadius, y: 300, color: 'hip-color', value: calculations.Hg.cm },
+                { type: 'neck', radius: neckRadius, y: 100, color: 'neck-color', value: calculations.Nw.cm },
+                { type: 'armhole', radius: armholeRadius, y: 180, color: 'armhole-color', value: calculations.Sd.cm }
+            ];
+            
+            measurements.forEach(measurement => {
+                // Add circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', '150');
+                circle.setAttribute('cy', measurement.y.toString());
+                circle.setAttribute('r', measurement.radius.toString());
+                circle.setAttribute('class', `measurement-circle ${measurement.color}`);
+                diagram.appendChild(circle);
+                
+                // Add text
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', '150');
+                text.setAttribute('y', (measurement.y - measurement.radius - 10).toString());
+                text.setAttribute('class', 'measurement-text');
+                text.textContent = `${measurement.type.toUpperCase()}: ${measurement.value.toFixed(1)}cm`;
+                diagram.appendChild(text);
+            });
+            
+            // Update measurement highlights
+            const keyMeasurements = [
+                { key: 'Cg', name: 'Chest Girth', icon: '👕' },
+                { key: 'Wg', name: 'Waist Girth', icon: '🎯' },
+                { key: 'Hg', name: 'Hip Girth', icon: '🩳' },
+                { key: 'Nw', name: 'Neck Width', icon: '👔' },
+                { key: 'Sd', name: 'Armhole Depth', icon: '📏' },
+                { key: 'Lg', name: 'Garment Length', icon: '👚' }
+            ];
+            
+            keyMeasurements.forEach(measurement => {
+                const card = document.createElement('div');
+                card.className = 'measurement-card';
+                card.innerHTML = `
+                    <h4>${measurement.icon} ${measurement.name}</h4>
+                    <div class="value">${calculations[measurement.key].cm.toFixed(1)} cm</div>
+                    <div style="font-size: 12px; color: #6c757d;">${calculations[measurement.key].inches.toFixed(1)} inches</div>
+                `;
+                highlights.appendChild(card);
             });
         }
         
