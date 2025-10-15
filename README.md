@@ -36,7 +36,7 @@ A professional web-based measurement calculator for fashion designers, tailors, 
 ## 🚀 Quick Start
 
 ### Method 1: Use Online (Recommended)
-1. Visit the [Live Demo](https://yourusername.github.io/body-measurement-calculator/)
+1. Visit the [Live Demo](https://abutahathetailor-create.github.io/measurement-calculator/)
 2. Input your measurements
 3. Get instant results!
 
