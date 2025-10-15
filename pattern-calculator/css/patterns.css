@@ -203,4 +203,46 @@
     .pattern-piece {
         transition: none;
     }
+
+}
+/* === EMERGENCY VISIBILITY FIX - ADD BELOW EXISTING CODE === */
+
+.pattern-container {
+    background: white !important;
+    border: 2px solid #dee2e6 !important;
+    min-height: 500px !important;
+}
+
+.pattern-container svg {
+    background: white !important;
+}
+
+/* Make all pattern lines VISIBLE */
+svg path {
+    stroke: #2c3e50 !important;
+    stroke-width: 3 !important;
+    fill: none !important;
+}
+
+svg circle {
+    stroke: #e74c3c !important;
+    stroke-width: 2 !important;
+    fill: #3498db !important;
+    r: 5 !important;
+}
+
+svg text {
+    fill: #2c3e50 !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+
+svg line {
+    stroke: #27ae60 !important;
+    stroke-width: 2 !important;
+}
+
+/* Hide placeholder when pattern exists */
+.pattern-container:has(svg) .pattern-placeholder {
+    display: none !important;
 }
