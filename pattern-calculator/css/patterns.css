@@ -247,3 +247,49 @@ svg line {
     display: none !important;
 }
 
+/* Ensure pattern container is visible */
+.pattern-container {
+    background: #ffffff !important;
+    border: 3px solid #dee2e6 !important;
+    border-radius: 10px !important;
+    min-height: 600px !important;
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+.pattern-container svg {
+    background: #ffffff !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Make patterns more visible */
+svg path {
+    stroke: #2c3e50 !important;
+    stroke-width: 3 !important;
+    fill: none !important;
+}
+
+svg circle {
+    stroke: #e74c3c !important;
+    stroke-width: 2 !important;
+    fill: #3498db !important;
+}
+
+svg text {
+    fill: #2c3e50 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: Arial, sans-serif !important;
+}
+
+svg line {
+    stroke: #27ae60 !important;
+    stroke-width: 3 !important;
+}
+
+/* Hide placeholder when pattern exists */
+.pattern-container:has(svg) .pattern-placeholder {
+    display: none !important;
+}
