@@ -1,33 +1,34 @@
-// js/pattern-generator.js
+// js/pattern-generator.js - FIXED SCALE VERSION
 class PatternGenerator {
     constructor() {
-        this.scale = 1; // Scale factor for SVG rendering
-        this.seamAllowance = 2.0; // Default seam allowance in cm
+        this.scale = 10; // Increased scale for better visibility
+        this.seamAllowance = 2.0;
     }
 
-    // Basic Bodice Block - Front
+    // Basic Bodice Block - Front (SIMPLIFIED FOR TESTING)
     generateBodiceFront(measurements) {
+        console.log("📐 Generating bodice front with measurements:", measurements);
+        
         const m = measurements;
         
-        // Key points for bodice front
+        // SIMPLIFIED POINTS - LARGER AND BETTER SPACED
         const points = {
-            // Neck points
+            // Neck points (centered, larger spacing)
             neckCenter: { x: 0, y: 0 },
-            neckShoulder: { x: m.neckWidth / 2, y: 0 },
+            neckShoulder: { x: m.neckWidth * 2, y: 0 },
             
-            // Shoulder points
-            shoulderTip: { x: m.neckWidth / 2 + m.shoulderSlope, y: -m.shoulderDrop },
+            // Shoulder points (proper spacing)
+            shoulderTip: { x: m.neckWidth * 2 + m.shoulderSlope * 3, y: -m.shoulderDrop * 3 },
             
-            // Armhole points
-            armholeDepth: { x: m.chestWidth / 2, y: -m.scyeDepth },
+            // Armhole points (larger, visible)
+            armholeDepth: { x: m.chestWidth, y: -m.scyeDepth * 2 },
             
-            // Bust points
-            bustPoint: { x: m.bustDartWidth / 2, y: -m.bustLevel },
-            
-            // Waist points
-            waistSide: { x: m.waistGirth / 4 + m.dartWidth, y: -m.backWaistLength },
-            waistCenter: { x: 0, y: -m.backWaistLength }
+            // Waist points (proper body proportions)
+            waistSide: { x: m.waistGirth / 2, y: -m.backWaistLength * 2 },
+            waistCenter: { x: 0, y: -m.backWaistLength * 2 }
         };
+
+        console.log("📊 Bodice front points:", points);
 
         return {
             type: 'bodice-front',
@@ -37,18 +38,22 @@ class PatternGenerator {
         };
     }
 
-    // Basic Bodice Block - Back
+    // Basic Bodice Block - Back (SIMPLIFIED)
     generateBodiceBack(measurements) {
+        console.log("📐 Generating bodice back with measurements:", measurements);
+        
         const m = measurements;
         
         const points = {
             neckCenter: { x: 0, y: 0 },
-            neckShoulder: { x: m.neckWidth / 2, y: 0 },
-            shoulderTip: { x: m.neckWidth / 2 + m.shoulderSlope, y: -m.shoulderDrop },
-            armholeDepth: { x: m.backWidth / 2, y: -m.scyeDepth },
-            waistSide: { x: m.waistGirth / 4, y: -m.backWaistLength },
-            waistCenter: { x: 0, y: -m.backWaistLength }
+            neckShoulder: { x: m.neckWidth * 2, y: 0 },
+            shoulderTip: { x: m.neckWidth * 2 + m.shoulderSlope * 3, y: -m.shoulderDrop * 3 },
+            armholeDepth: { x: m.backWidth, y: -m.scyeDepth * 2 },
+            waistSide: { x: m.waistGirth / 2, y: -m.backWaistLength * 2 },
+            waistCenter: { x: 0, y: -m.backWaistLength * 2 }
         };
+
+        console.log("📊 Bodice back points:", points);
 
         return {
             type: 'bodice-back',
@@ -58,22 +63,26 @@ class PatternGenerator {
         };
     }
 
-    // Basic Sleeve Block
+    // Basic Sleeve Block (SIMPLIFIED)
     generateSleeve(measurements) {
+        console.log("📐 Generating sleeve with measurements:", measurements);
+        
         const m = measurements;
         
-        // Sleeve cap calculations
-        const capHeight = m.scyeDepth * 0.8;
-        const bicepWidth = m.chestGirth * 0.2;
+        // LARGER SLEEVE FOR BETTER VISIBILITY
+        const capHeight = m.scyeDepth * 3;
+        const bicepWidth = m.chestGirth * 0.5;
         
         const points = {
             capCenter: { x: 0, y: 0 },
-            capFront: { x: bicepWidth / 2, y: -capHeight * 0.3 },
-            capBack: { x: -bicepWidth / 2, y: -capHeight * 0.4 },
-            underarm: { x: bicepWidth / 2, y: -capHeight },
-            wristFront: { x: m.wristWidth / 2, y: -m.sleeveLength },
-            wristBack: { x: -m.wristWidth / 2, y: -m.sleeveLength }
+            capFront: { x: bicepWidth, y: -capHeight * 0.3 },
+            capBack: { x: -bicepWidth, y: -capHeight * 0.4 },
+            underarm: { x: bicepWidth, y: -capHeight },
+            wristFront: { x: m.wristWidth, y: -m.sleeveLength * 2 },
+            wristBack: { x: -m.wristWidth, y: -m.sleeveLength * 2 }
         };
+
+        console.log("📊 Sleeve points:", points);
 
         return {
             type: 'sleeve',
@@ -86,14 +95,14 @@ class PatternGenerator {
     calculateBodiceDarts(measurements) {
         return {
             bustDart: {
-                position: { x: measurements.chestWidth * 0.3, y: -measurements.bustLevel },
-                width: measurements.chestGirth * 0.02,
-                length: measurements.bustLevel * 0.6
+                position: { x: measurements.chestWidth * 0.6, y: -measurements.bustLevel * 1.5 },
+                width: measurements.chestGirth * 0.05,
+                length: measurements.bustLevel
             },
             waistDart: {
-                position: { x: measurements.waistGirth * 0.15, y: -measurements.backWaistLength },
-                width: measurements.waistGirth * 0.03,
-                length: measurements.backWaistLength * 0.4
+                position: { x: measurements.waistGirth * 0.3, y: -measurements.backWaistLength * 1.8 },
+                width: measurements.waistGirth * 0.06,
+                length: measurements.backWaistLength
             }
         };
     }
@@ -101,14 +110,14 @@ class PatternGenerator {
     calculateBackDarts(measurements) {
         return {
             shoulderDart: {
-                position: { x: measurements.neckWidth * 0.4, y: -measurements.shoulderDrop * 0.5 },
-                width: measurements.shoulderSlope * 0.2,
-                length: measurements.backWidth * 0.3
+                position: { x: measurements.neckWidth, y: -measurements.shoulderDrop * 1.5 },
+                width: measurements.shoulderSlope * 0.5,
+                length: measurements.backWidth * 0.4
             },
             waistDart: {
-                position: { x: measurements.waistGirth * 0.1, y: -measurements.backWaistLength },
-                width: measurements.waistGirth * 0.04,
-                length: measurements.backWaistLength * 0.5
+                position: { x: measurements.waistGirth * 0.2, y: -measurements.backWaistLength * 1.8 },
+                width: measurements.waistGirth * 0.08,
+                length: measurements.backWaistLength * 0.6
             }
         };
     }
@@ -134,12 +143,10 @@ class PatternGenerator {
         };
     }
 
-    // Set scale for different display sizes
     setScale(newScale) {
         this.scale = newScale;
     }
 
-    // Set seam allowance
     setSeamAllowance(allowance) {
         this.seamAllowance = allowance;
     }
