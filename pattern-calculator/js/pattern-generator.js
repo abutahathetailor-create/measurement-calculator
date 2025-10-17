@@ -1,61 +1,88 @@
-// js/pattern-generator.js - REAL PATTERN DRAFTING
+// js/pattern-generator.js - TEMPLATE-BASED PATTERNS
 class PatternGenerator {
     constructor() {
         this.scale = 1.0;
         this.seamAllowance = 2.0;
     }
 
-    // REAL BODICE FRONT BLOCK - Professional drafting method
+    // BODICE FRONT - Using template with measurements
     generateBodiceFront(measurements) {
         const m = measurements;
         
-        // Basic bodice block calculations
-        const shoulderLength = m.chestGirth * 0.12 + 1;
-        const neckWidth = m.chestGirth * 0.06 + 2;
-        const neckDepth = neckWidth + 1;
-        const armholeDepth = m.chestGirth * 0.25 + 4;
-        const waistLength = m.bodyHeight * 0.25;
-        const bustDartPosition = m.chestWidth * 0.3;
-        const bustDartLength = m.chestGirth * 0.1;
+        // Scale factors based on chest measurement
+        const scaleX = m.chestGirth / 100; // Base on 100cm chest
+        const scaleY = m.bodyHeight / 170; // Base on 170cm height
         
-        // Key points for bodice front
+        // Template points for a standard bodice front
         const points = {
-            // Start at neck point
-            A: { x: 0, y: 0 }, // Neck center front
+            // Neckline points
+            neckCenter: { x: 0, y: 0 },
+            neckShoulder: { x: 8 * scaleX, y: 0 },
+            neckCurve1: { x: 3 * scaleX, y: -3 * scaleY },
+            neckCurve2: { x: 6 * scaleX, y: -1 * scaleY },
             
-            // Neckline
-            B: { x: neckWidth, y: 0 }, // Neck shoulder point
-            C: { x: 0, y: -neckDepth }, // Neck center depth
+            // Shoulder points
+            shoulderTip: { x: 25 * scaleX, y: -4 * scaleY },
             
-            // Shoulder line
-            D: { 
-                x: neckWidth + shoulderLength, 
-                y: -shoulderLength * 0.15 
-            }, // Shoulder tip
+            // Armhole points - CURVED
+            armhole1: { x: 22 * scaleX, y: -12 * scaleY },
+            armhole2: { x: 18 * scaleX, y: -18 * scaleY },
+            armholeDepth: { x: 12 * scaleX, y: -25 * scaleY },
             
-            // Armhole points
-            E: { x: m.chestWidth * 0.5, y: -armholeDepth }, // Armhole depth
-            F: { x: m.chestWidth * 0.25, y: -armholeDepth * 0.7 }, // Armhole curve 1
-            G: { x: m.chestWidth * 0.4, y: -armholeDepth * 0.9 }, // Armhole curve 2
+            // Side seam
+            sideWaist: { x: 15 * scaleX, y: -45 * scaleY },
             
-            // Side seam and waist
-            H: { x: m.chestWidth * 0.5 + 2, y: -waistLength }, // Side waist
-            I: { x: 0, y: -waistLength }, // Center waist
+            // Waistline
+            waistCenter: { x: 0, y: -45 * scaleY },
+            waistCurve1: { x: 5 * scaleX, y: -44 * scaleY },
+            waistCurve2: { x: 10 * scaleX, y: -46 * scaleY },
             
             // Bust points
-            J: { x: bustDartPosition, y: -waistLength * 0.3 }, // Bust point
-            K: { x: bustDartPosition, y: -waistLength * 0.7 } // Bust dart point
+            bustPoint: { x: 10 * scaleX, y: -15 * scaleY },
+            bustDartTop: { x: 10 * scaleX, y: -25 * scaleY },
+            bustDartBottom: { x: 10 * scaleX, y: -35 * scaleY }
         };
 
-        // Seams - proper garment construction
         const seams = {
-            centerFront: [points.A, points.C, points.I],
-            neckline: this.createNeckCurve(points.A, points.B, points.C),
-            shoulder: [points.B, points.D],
-            armhole: this.createArmholeCurve(points.D, points.F, points.G, points.E),
-            sideSeam: [points.E, points.H],
-            waistline: [points.H, points.I],
-            bustDart: this.createBustDart(points.J, points.K, bustDartLength)
+            // Center front - straight line
+            centerFront: [points.neckCenter, points.waistCenter],
+            
+            // Neckline - curved
+            neckline: [
+                points.neckCenter,
+                points.neckCurve1,
+                points.neckCurve2,
+                points.neckShoulder
+            ],
+            
+            // Shoulder - straight line
+            shoulder: [points.neckShoulder, points.shoulderTip],
+            
+            // Armhole - curved
+            armhole: [
+                points.shoulderTip,
+                points.armhole1,
+                points.armhole2,
+                points.armholeDepth
+            ],
+            
+            // Side seam - straight line
+            sideSeam: [points.armholeDepth, points.sideWaist],
+            
+            // Waistline - slightly curved
+            waistline: [
+                points.sideWaist,
+                points.waistCurve2,
+                points.waistCurve1,
+                points.waistCenter
+            ],
+            
+            // Bust dart
+            bustDart: [
+                { x: points.bustPoint.x - 2, y: points.bustPoint.y },
+                points.bustDartTop,
+                { x: points.bustPoint.x + 2, y: points.bustPoint.y }
+            ]
         };
 
         return {
@@ -66,45 +93,67 @@ class PatternGenerator {
         };
     }
 
-    // REAL BODICE BACK BLOCK
+    // BODICE BACK - Template based
     generateBodiceBack(measurements) {
         const m = measurements;
         
-        const shoulderLength = m.chestGirth * 0.12;
-        const neckWidth = m.chestGirth * 0.06;
-        const neckDepth = neckWidth * 0.5;
-        const armholeDepth = m.chestGirth * 0.25 + 3;
-        const waistLength = m.bodyHeight * 0.25;
-        const backDartPosition = m.chestWidth * 0.2;
+        const scaleX = m.chestGirth / 100;
+        const scaleY = m.bodyHeight / 170;
         
         const points = {
-            A: { x: 0, y: 0 }, // Neck center back
-            B: { x: neckWidth, y: 0 }, // Neck shoulder point
-            C: { x: 0, y: -neckDepth }, // Neck center depth
+            // Neckline points
+            neckCenter: { x: 0, y: 0 },
+            neckShoulder: { x: 7 * scaleX, y: 0 },
+            neckCurve1: { x: 3 * scaleX, y: -2 * scaleY },
+            neckCurve2: { x: 5 * scaleX, y: -0.5 * scaleY },
             
-            D: { 
-                x: neckWidth + shoulderLength, 
-                y: -shoulderLength * 0.1 
-            }, // Shoulder tip
+            // Shoulder points
+            shoulderTip: { x: 23 * scaleX, y: -3 * scaleY },
             
-            E: { x: m.backWidth * 0.5, y: -armholeDepth }, // Armhole depth
-            F: { x: m.backWidth * 0.3, y: -armholeDepth * 0.6 },
-            G: { x: m.backWidth * 0.45, y: -armholeDepth * 0.8 },
+            // Armhole points
+            armhole1: { x: 20 * scaleX, y: -10 * scaleY },
+            armhole2: { x: 16 * scaleX, y: -16 * scaleY },
+            armholeDepth: { x: 10 * scaleX, y: -24 * scaleY },
             
-            H: { x: m.backWidth * 0.5 + 1, y: -waistLength }, // Side waist
-            I: { x: 0, y: -waistLength }, // Center waist
+            // Side seam
+            sideWaist: { x: 13 * scaleX, y: -45 * scaleY },
             
-            J: { x: backDartPosition, y: -waistLength * 0.5 } // Back dart
+            // Waistline
+            waistCenter: { x: 0, y: -45 * scaleY },
+            
+            // Back dart
+            backDartTop: { x: 8 * scaleX, y: -20 * scaleY },
+            backDartBottom: { x: 8 * scaleX, y: -35 * scaleY }
         };
 
         const seams = {
-            centerBack: [points.A, points.C, points.I],
-            neckline: this.createBackNeckCurve(points.A, points.B, points.C),
-            shoulder: [points.B, points.D],
-            armhole: this.createBackArmholeCurve(points.D, points.F, points.G, points.E),
-            sideSeam: [points.E, points.H],
-            waistline: [points.H, points.I],
-            backDart: this.createBackDart(points.J, waistLength * 0.15)
+            centerBack: [points.neckCenter, points.waistCenter],
+            
+            neckline: [
+                points.neckCenter,
+                points.neckCurve1,
+                points.neckCurve2,
+                points.neckShoulder
+            ],
+            
+            shoulder: [points.neckShoulder, points.shoulderTip],
+            
+            armhole: [
+                points.shoulderTip,
+                points.armhole1,
+                points.armhole2,
+                points.armholeDepth
+            ],
+            
+            sideSeam: [points.armholeDepth, points.sideWaist],
+            
+            waistline: [points.sideWaist, points.waistCenter],
+            
+            backDart: [
+                { x: points.backDartTop.x - 1.5, y: points.backDartTop.y },
+                points.backDartBottom,
+                { x: points.backDartTop.x + 1.5, y: points.backDartTop.y }
+            ]
         };
 
         return {
@@ -115,43 +164,60 @@ class PatternGenerator {
         };
     }
 
-    // REAL BASIC SLEEVE BLOCK
+    // BASIC SLEEVE - Template based
     generateSleeve(measurements) {
         const m = measurements;
         
-        const sleeveCapHeight = m.chestGirth * 0.15;
-        const bicepWidth = m.chestGirth * 0.25;
-        const wristWidth = m.chestGirth * 0.12;
-        const elbowPosition = m.sleeveLength * 0.4;
+        const scaleX = m.chestGirth / 100;
+        const scaleY = m.sleeveLength / 60; // Base on 60cm sleeve
         
         const points = {
-            A: { x: 0, y: 0 }, // Sleeve cap center
+            // Sleeve cap points
+            capCenter: { x: 0, y: 0 },
+            capFront1: { x: 8 * scaleX, y: -5 * scaleY },
+            capFront2: { x: 12 * scaleX, y: -12 * scaleY },
+            capFrontTip: { x: 15 * scaleX, y: -20 * scaleY },
             
-            // Sleeve cap front
-            B: { x: bicepWidth * 0.45, y: -sleeveCapHeight * 0.3 },
-            C: { x: bicepWidth * 0.4, y: -sleeveCapHeight * 0.7 },
-            D: { x: bicepWidth * 0.35, y: -sleeveCapHeight },
+            capBack1: { x: -8 * scaleX, y: -6 * scaleY },
+            capBack2: { x: -12 * scaleX, y: -14 * scaleY },
+            capBackTip: { x: -15 * scaleX, y: -20 * scaleY },
             
-            // Sleeve cap back
-            E: { x: -bicepWidth * 0.45, y: -sleeveCapHeight * 0.4 },
-            F: { x: -bicepWidth * 0.4, y: -sleeveCapHeight * 0.8 },
-            G: { x: -bicepWidth * 0.35, y: -sleeveCapHeight },
+            // Wrist points
+            wristFront: { x: 10 * scaleX, y: -60 * scaleY },
+            wristBack: { x: -10 * scaleX, y: -60 * scaleY },
             
-            // Underarm and wrist
-            H: { x: bicepWidth * 0.35, y: -m.sleeveLength }, // Front wrist
-            I: { x: -bicepWidth * 0.35, y: -m.sleeveLength }, // Back wrist
-            
-            // Elbow points
-            J: { x: bicepWidth * 0.3, y: -elbowPosition }, // Front elbow
-            K: { x: -bicepWidth * 0.3, y: -elbowPosition } // Back elbow
+            // Underarm points
+            underarmFront: { x: 15 * scaleX, y: -25 * scaleY },
+            underarmBack: { x: -15 * scaleX, y: -25 * scaleY }
         };
 
         const seams = {
-            sleeveCapFront: this.createSleeveCapCurve([points.A, points.B, points.C, points.D]),
-            sleeveCapBack: this.createSleeveCapCurve([points.A, points.E, points.F, points.G]),
-            underSeamFront: [points.D, points.J, points.H],
-            underSeamBack: [points.G, points.K, points.I],
-            wristLine: [points.H, points.I]
+            // Sleeve cap front curve
+            capFront: [
+                points.capCenter,
+                points.capFront1,
+                points.capFront2,
+                points.capFrontTip,
+                points.underarmFront
+            ],
+            
+            // Sleeve cap back curve
+            capBack: [
+                points.capCenter,
+                points.capBack1,
+                points.capBack2,
+                points.capBackTip,
+                points.underarmBack
+            ],
+            
+            // Front under seam
+            underSeamFront: [points.underarmFront, points.wristFront],
+            
+            // Back under seam
+            underSeamBack: [points.underarmBack, points.wristBack],
+            
+            // Wrist line
+            wristLine: [points.wristFront, points.wristBack]
         };
 
         return {
@@ -160,66 +226,6 @@ class PatternGenerator {
             seams: seams,
             description: 'Basic Sleeve Block'
         };
-    }
-
-    // CURVE CREATION METHODS
-    createNeckCurve(start, shoulder, depth) {
-        // Create smooth neck curve
-        return [
-            start,
-            { x: shoulder.x * 0.3, y: -depth.y * 0.3 },
-            { x: shoulder.x * 0.7, y: -depth.y * 0.1 },
-            shoulder
-        ];
-    }
-
-    createBackNeckCurve(start, shoulder, depth) {
-        return [
-            start,
-            { x: shoulder.x * 0.4, y: -depth.y * 0.2 },
-            { x: shoulder.x * 0.8, y: -depth.y * 0.05 },
-            shoulder
-        ];
-    }
-
-    createArmholeCurve(shoulder, curve1, curve2, armhole) {
-        return [
-            shoulder,
-            curve1,
-            curve2,
-            armhole
-        ];
-    }
-
-    createBackArmholeCurve(shoulder, curve1, curve2, armhole) {
-        return [
-            shoulder,
-            curve1,
-            curve2,
-            armhole
-        ];
-    }
-
-    createSleeveCapCurve(points) {
-        return points; // Simple curve for now
-    }
-
-    createBustDart(bustPoint, dartPoint, length) {
-        const dartWidth = length * 0.15;
-        return [
-            { x: bustPoint.x - dartWidth, y: bustPoint.y },
-            dartPoint,
-            { x: bustPoint.x + dartWidth, y: bustPoint.y }
-        ];
-    }
-
-    createBackDart(dartPoint, length) {
-        const dartWidth = length * 0.2;
-        return [
-            { x: dartPoint.x - dartWidth, y: dartPoint.y },
-            { x: dartPoint.x, y: dartPoint.y - length },
-            { x: dartPoint.x + dartWidth, y: dartPoint.y }
-        ];
     }
 
     setScale(newScale) {
