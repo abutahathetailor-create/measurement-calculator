@@ -1,11 +1,11 @@
 // js/svg-renderer.js - COMPLETE UPDATED VERSION
 class SVGRenderer {
     constructor(containerId) {
-        this.container = document.getElementById(containerId);
-        this.namespace = 'http://www.w3.org/2000/svg';
-        this.scale = 1.5; // Good visibility scale
-        this.offsetX = 400;
-        this.offsetY = 300;
+    this.container = document.getElementById(containerId);
+    this.namespace = 'http://www.w3.org/2000/svg';
+    this.scale = 3.0; // INCREASED SCALE - make patterns larger
+    this.offsetX = 400;
+    this.offsetY = 300;
     }
 
     // Clear existing SVG
@@ -216,3 +216,4 @@ class SVGRenderer {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = SVGRenderer;
 }
+
