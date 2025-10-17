@@ -1,4 +1,4 @@
-// js/svg-renderer.js - COMPLETELY CLEAN VERSION
+// js/svg-renderer.js - COMPLETE UPDATED VERSION
 class SVGRenderer {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
@@ -14,6 +14,12 @@ class SVGRenderer {
             // Remove all children
             while (this.container.firstChild) {
                 this.container.removeChild(this.container.firstChild);
+            }
+            
+            // Hide placeholder
+            const placeholder = this.container.querySelector('.pattern-placeholder');
+            if (placeholder) {
+                placeholder.style.display = 'none';
             }
         }
     }
@@ -52,78 +58,48 @@ class SVGRenderer {
         };
     }
 
-    // Render bodice pattern
+    // Render bodice pattern - SIMPLIFIED: ONLY CUTTING LINES
     renderBodice(patternData, svg) {
-        console.log('🎨 Rendering bodice pattern:', patternData);
+        console.log('🎨 Rendering bodice pattern (cutting lines only):', patternData);
         
-        const { points, darts, seams } = patternData;
+        const { seams } = patternData;
         
-        if (!points) {
-            console.error('No points data for bodice');
+        if (!seams) {
+            console.error('No seams data for bodice');
             return;
         }
 
-        // Draw seams
-        if (seams) {
-            Object.entries(seams).forEach(([name, seamPoints]) => {
-                console.log(`Drawing seam: ${name}`, seamPoints);
-                this.drawSeam(seamPoints, svg, true, name);
-            });
-        }
-
-        // Draw darts
-        if (darts) {
-            Object.entries(darts).forEach(([name, dart]) => {
-                console.log(`Drawing dart: ${name}`, dart);
-                this.drawDart(dart, svg, name);
-            });
-        }
-
-        // Draw points and labels
-        Object.entries(points).forEach(([name, point]) => {
-            this.drawPoint(point, name, svg);
+        // ONLY DRAW CUTTING LINES - no points, no darts
+        Object.values(seams).forEach(seamPoints => {
+            this.drawSeam(seamPoints, svg, true);
         });
 
-        // Add grain line from center front
-        if (points.waistCenter && points.neckCenter) {
-            this.drawGrainLine(points.waistCenter, points.neckCenter, svg, 'Grain Line');
-        }
+        console.log('✅ Bodice cutting lines rendered');
     }
 
-    // Render sleeve pattern
+    // Render sleeve pattern - SIMPLIFIED: ONLY CUTTING LINES
     renderSleeve(patternData, svg) {
-        console.log('🎨 Rendering sleeve pattern:', patternData);
+        console.log('🎨 Rendering sleeve pattern (cutting lines only):', patternData);
         
-        const { points, seams } = patternData;
+        const { seams } = patternData;
         
-        if (!points) {
-            console.error('No points data for sleeve');
+        if (!seams) {
+            console.error('No seams data for sleeve');
             return;
         }
 
-        // Draw seams
-        if (seams) {
-            Object.entries(seams).forEach(([name, seamPoints]) => {
-                console.log(`Drawing sleeve seam: ${name}`, seamPoints);
-                this.drawSeam(seamPoints, svg, true, name);
-            });
-        }
-
-        // Draw points and labels
-        Object.entries(points).forEach(([name, point]) => {
-            this.drawPoint(point, name, svg);
+        // ONLY DRAW CUTTING LINES - no points, no darts
+        Object.values(seams).forEach(seamPoints => {
+            this.drawSeam(seamPoints, svg, true);
         });
 
-        // Add grain line from cap to wrist
-        if (points.capCenter && points.wristFront) {
-            this.drawGrainLine(points.capCenter, points.wristFront, svg, 'Sleeve Grain');
-        }
+        console.log('✅ Sleeve cutting lines rendered');
     }
 
-    // Draw a seam line
-    drawSeam(points, svg, isCuttingLine = true, seamName = '') {
+    // Draw a seam line (cutting line)
+    drawSeam(points, svg, isCuttingLine = true) {
         if (!points || points.length < 2) {
-            console.warn(`Invalid seam points for ${seamName}:`, points);
+            console.warn('Invalid seam points:', points);
             return;
         }
 
@@ -141,25 +117,48 @@ class SVGRenderer {
 
         path.setAttribute('d', pathData);
         path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', isCuttingLine ? '#2c3e50' : '#6c757d');
-        path.setAttribute('stroke-width', isCuttingLine ? '3' : '2');
+        path.setAttribute('stroke', isCuttingLine ? '#2c3e50' : '#6c757d'); // Dark color for cutting lines
+        path.setAttribute('stroke-width', isCuttingLine ? '4' : '2'); // Thicker lines for cutting
         path.setAttribute('stroke-dasharray', isCuttingLine ? 'none' : '5,5');
-        path.setAttribute('data-name', seamName);
         
         svg.appendChild(path);
-        console.log(`✅ Seam drawn: ${seamName}`);
     }
 
-    // Draw a dart
+    // Draw a point with label (NOT USED IN SIMPLIFIED VERSION)
+    drawPoint(point, label, svg, color = '#3498db') {
+        // Commented out - we don't want points in simplified version
+        /*
+        const svgPoint = this.toSVGCoords(point);
+        
+        const circle = document.createElementNS(this.namespace, 'circle');
+        circle.setAttribute('cx', svgPoint.x);
+        circle.setAttribute('cy', svgPoint.y);
+        circle.setAttribute('r', '6');
+        circle.setAttribute('fill', color);
+        circle.setAttribute('stroke', '#2c3e50');
+        circle.setAttribute('stroke-width', '2');
+        svg.appendChild(circle);
+
+        const text = document.createElementNS(this.namespace, 'text');
+        text.setAttribute('x', svgPoint.x + 10);
+        text.setAttribute('y', svgPoint.y - 10);
+        text.setAttribute('font-size', '11');
+        text.setAttribute('fill', '#2c3e50');
+        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.setAttribute('font-weight', 'bold');
+        text.textContent = label;
+        svg.appendChild(text);
+        */
+    }
+
+    // Draw a dart (NOT USED IN SIMPLIFIED VERSION)
     drawDart(dart, svg, dartName = '') {
-        if (!dart || !dart.position) {
-            console.warn(`Invalid dart: ${dartName}`, dart);
-            return;
-        }
+        // Commented out - we don't want darts in simplified version
+        /*
+        if (!dart || !dart.position) return;
         
         const { position, width, length } = dart;
         
-        // Dart legs
         const leftLeg = [
             { x: position.x - width/2, y: position.y },
             { x: position.x, y: position.y - length }
@@ -170,51 +169,22 @@ class SVGRenderer {
             { x: position.x, y: position.y - length }
         ];
 
-        this.drawSeam(leftLeg, svg, false, `${dartName}-left`);
-        this.drawSeam(rightLeg, svg, false, `${dartName}-right`);
+        this.drawSeam(leftLeg, svg, false);
+        this.drawSeam(rightLeg, svg, false);
 
-        // Dart point
         this.drawPoint(
             { x: position.x, y: position.y - length }, 
-            `${dartName}-point`, 
+            'dart', 
             svg, 
             '#e74c3c'
         );
-        
-        console.log(`✅ Dart drawn: ${dartName}`);
+        */
     }
 
-    // Draw a point with label
-    drawPoint(point, label, svg, color = '#3498db') {
-        const svgPoint = this.toSVGCoords(point);
-        
-        // Draw point circle
-        const circle = document.createElementNS(this.namespace, 'circle');
-        circle.setAttribute('cx', svgPoint.x);
-        circle.setAttribute('cy', svgPoint.y);
-        circle.setAttribute('r', '6');
-        circle.setAttribute('fill', color);
-        circle.setAttribute('stroke', '#2c3e50');
-        circle.setAttribute('stroke-width', '2');
-        circle.setAttribute('data-name', label);
-        svg.appendChild(circle);
-
-        // Add label
-        const text = document.createElementNS(this.namespace, 'text');
-        text.setAttribute('x', svgPoint.x + 10);
-        text.setAttribute('y', svgPoint.y - 10);
-        text.setAttribute('font-size', '11');
-        text.setAttribute('fill', '#2c3e50');
-        text.setAttribute('font-family', 'Arial, sans-serif');
-        text.setAttribute('font-weight', 'bold');
-        text.textContent = label;
-        svg.appendChild(text);
-        
-        console.log(`✅ Point drawn: ${label} at (${point.x}, ${point.y})`);
-    }
-
-    // Draw grain line
+    // Draw grain line (NOT USED IN SIMPLIFIED VERSION)
     drawGrainLine(start, end, svg, label = 'Grain') {
+        // Commented out - we don't want grain lines in simplified version
+        /*
         const startPoint = this.toSVGCoords(start);
         const endPoint = this.toSVGCoords(end);
         
@@ -226,28 +196,15 @@ class SVGRenderer {
         line.setAttribute('stroke', '#27ae60');
         line.setAttribute('stroke-width', '2');
         line.setAttribute('stroke-dasharray', '5,3');
-        line.setAttribute('data-name', label);
         svg.appendChild(line);
 
-        // Add arrowhead
         this.drawArrowhead(endPoint, Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x), svg);
-        
-        console.log(`✅ Grain line drawn: ${label}`);
+        */
     }
 
-    // Draw arrowhead for grain line
+    // Draw arrowhead for grain line (NOT USED)
     drawArrowhead(point, angle, svg) {
-        const size = 10;
-        const arrow = document.createElementNS(this.namespace, 'path');
-        
-        const pathData = `M ${point.x} ${point.y} 
-                         L ${point.x - size * Math.cos(angle - Math.PI/6)} ${point.y - size * Math.sin(angle - Math.PI/6)}
-                         L ${point.x - size * Math.cos(angle + Math.PI/6)} ${point.y - size * Math.sin(angle + Math.PI/6)} 
-                         Z`;
-        
-        arrow.setAttribute('d', pathData);
-        arrow.setAttribute('fill', '#27ae60');
-        svg.appendChild(arrow);
+        // Commented out
     }
 
     // Set scale
