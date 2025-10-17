@@ -1,15 +1,12 @@
 // js/svg-renderer.js - DEBUG VERSION
 class SVGRenderer {
-    constructor(containerId) {
-        console.log("🎨 SVG Renderer initializing for container:", containerId);
-        this.container = document.getElementById(containerId);
-        console.log("Container found:", this.container);
-        
-        this.namespace = 'http://www.w3.org/2000/svg';
-        this.scale = 1; // Simple scale for now
-        this.offsetX = 200; // Center X
-        this.offsetY = 200; // Center Y
-    }
+constructor(containerId) {
+    this.container = document.getElementById(containerId);
+    this.namespace = 'http://www.w3.org/2000/svg';
+    this.scale = 0.3; // REDUCED SCALE - patterns were too big
+    this.offsetX = 400;
+    this.offsetY = 300;
+}
 
     // Clear existing SVG
     clear() {
@@ -128,3 +125,4 @@ class SVGRenderer {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = SVGRenderer;
 }
+
